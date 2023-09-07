@@ -25,6 +25,7 @@ included에는 true가 적어도 하나 존재합니다.
 |---|---|---|---|---|
 |등차수열|3|7|11|15|19|
 |included|true|false|false|true|true|
+
 따라서 true에 해당하는 1항, 4항, 5항을 더한 3 + 15 + 19 = 37을 return 합니다.
 
 ### 입출력 예 #2
@@ -34,4 +35,5 @@ included에는 true가 적어도 하나 존재합니다.
 |---|---|---|---|---|---|---|
 |등차수열|7|8|9|10|11|12|13|
 |included|false|false|false|true|false|false|false|
+
 따라서 4항만 true이므로 10을 return 합니다.
