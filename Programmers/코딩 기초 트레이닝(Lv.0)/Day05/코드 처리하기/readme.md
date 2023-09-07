@@ -43,4 +43,5 @@ code의 각 인덱스 i에 따라 다음과 같이 mode와 ret가 변합니다.
 |8|"a"|0|"acba"|
 |9|"b"|0|"acba"|
 |10|"c"|0|"acbac"|
+
 따라서 "acbac"를 return 합니다.
