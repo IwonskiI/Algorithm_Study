@@ -12,4 +12,5 @@ str1과 str2는 알파벳 소문자로 이루어진 문자열입니다.
 
 ## 입출력 예
 |str1|str2|result|
+|-|-|-|
 |"aaaaa"|"bbbbb"|"ababababab"|
