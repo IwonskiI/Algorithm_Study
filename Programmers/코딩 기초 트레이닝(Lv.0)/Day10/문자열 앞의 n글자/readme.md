@@ -11,6 +11,7 @@ my_string은 숫자와 알파벳으로 이루어져 있습니다.
 
 ## 입출력 예
 |my_string|n|result|
+|-|-|-|
 |"ProgrammerS123"|11|"ProgrammerS"|
 |"He110W0r1d"|5|"He110"|
 
