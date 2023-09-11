@@ -13,6 +13,7 @@ parts[i]를 [s, e]라 할 때, 다음을 만족합니다.
 
 ## 입출력 예
 |my_strings|parts|result|
+|-|-|-|
 |["progressive", "hamburger", "hammer", "ahocorasick"]|[[0, 4], [1, 2], [3, 5], [7, 7]]|"programmers"|
 
 ## 입출력 예 설명
@@ -21,6 +22,7 @@ parts[i]를 [s, e]라 할 때, 다음을 만족합니다.
 예제 1번의 입력을 보기 좋게 표로 나타내면 다음과 같습니다.
 
 |i|my_strings[i]|parts[i]|부분 문자열|
+|-|-|-|-|
 |0|"progressive"|[0, 4]|"progr"|
 |1|"hamburger"|[1, 2]|"am"|
 |2|"hammer"|[3, 5]|"mer"|
