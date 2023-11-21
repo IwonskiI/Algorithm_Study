@@ -11,8 +11,8 @@
 - my_string에는 단어가 하나 이상 존재합니다.
 
 ## 입출력 예
-|-|-|
 |my_string|result|
+|-|-|
 |" i    love  you"|["i", "love", "you"]|
 |"    programmers  "|["programmers"]|
 

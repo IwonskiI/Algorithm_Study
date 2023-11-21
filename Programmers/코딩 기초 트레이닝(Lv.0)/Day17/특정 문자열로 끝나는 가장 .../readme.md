@@ -11,8 +11,8 @@
 - myString과 pat에 등장하는 알파벳은 대문자와 소문자를 구분합니다.
 
 ## 입출력 예
-|-|-|-|
 |myString|pat|result|
+|-|-|-|
 |"AbCdEFG"|"dE"|"AbCdE"|
 |"AAAAaaaa"|"a"|"AAAAaaaa"|
 

@@ -9,8 +9,8 @@
 - myString은 알파벳 소문자로 이루어진 문자열입니다.
 
 ## 입출력 예
-|-|-|
 |myString|result|
+|-|-|
 |"oxooxoxxox"|[1, 2, 1, 0, 1, 0]|
 |"xabcxdefxghi"|[0, 3, 3, 3]|
 

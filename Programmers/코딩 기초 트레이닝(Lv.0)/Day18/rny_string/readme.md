@@ -9,8 +9,8 @@
 - rny_string은 영소문자로만 이루어져 있습니다.
 
 ## 입출력 예
-|-|-|
 |rny_string|result|
+|-|-|
 |"masterpiece"|"rnasterpiece"|
 |"programmers"|"prograrnrners"|
 |"jerry"|"jerry"|
@@ -20,16 +20,16 @@
 
 ### 입출력 예 #1
 예제 1번의 rny_string의 'm'을 "rn"으로 바꾸는 과정을 표로 나타내면 다음과 같습니다.
-|-|-|-|-|-|-|-|-|-|-|-|-|
 |rny_string|m|a|s|t|e|r|p|i|e|c|e|
+|-|-|-|-|-|-|-|-|-|-|-|-|
 |result|rn|a|s|t|e|r|p|i|e|c|e|
 
 따라서 "rnasterpiece"를 return 합니다.
 
 ### 입출력 예 #2
 예제 2번의 rny_string의 'm'을 "rn"으로 바꾸는 과정을 표로 나타내면 다음과 같습니다.
-|-|-|-|-|-|-|-|-|-|-|-|-|
 |rny_string|p|r|o|g|r|a|m|m|e|r|s|
+|-|-|-|-|-|-|-|-|-|-|-|-|
 |result|p|r|o|g|r|a|rn|rn|e|r|s|
 
 따라서 "prograrnrners"를 return 합니다.

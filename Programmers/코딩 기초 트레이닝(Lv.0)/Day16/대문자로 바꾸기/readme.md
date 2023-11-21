@@ -9,7 +9,7 @@
 - myString은 알파벳으로 이루어진 문자열입니다.
 
 # 입출력 예
-|-|-|
 |myString|result|
+|-|-|
 |"aBcDeFg"|"ABCDEFG"|
 |"AAA"|"AAA"|

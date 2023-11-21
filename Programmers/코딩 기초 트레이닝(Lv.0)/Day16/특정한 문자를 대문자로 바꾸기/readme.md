@@ -8,8 +8,8 @@
 - 1 ≤ my_string의 길이 ≤ 1,000
 
 ## 입출력 예
-|-|-|-|
 |my_string|alp|result|
+|-|-|-|
 |"programmers"|"p"|"Programmers"|
 |"lowercase"|"x"|"lowercase"|
 

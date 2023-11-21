@@ -10,8 +10,8 @@
 - myString과 pat는 문자 "A"와 "B"로만 이루어진 문자열입니다.
 
 ## 입출력 예
-|-|-|-|
 |myString|pat|result|
+|-|-|-|
 |"ABBAA"|"AABB"|1|
 |"ABAB"|"ABAB"|0|
 

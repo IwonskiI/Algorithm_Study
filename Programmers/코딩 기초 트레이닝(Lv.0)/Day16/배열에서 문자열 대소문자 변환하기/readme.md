@@ -10,8 +10,8 @@
 - strArr의 원소는 알파벳으로 이루어진 문자열 입니다.
 
 ## 입출력 예
-|-|-|
 |strArr|result|
+|-|-|
 |["AAA","BBB","CCC","DDD"]|["aaa","BBB","ccc","DDD"]|
 |["aBc","AbC"]|["abc","ABC"]|
 

@@ -10,8 +10,8 @@
 - my_string의 맨 앞과 맨 뒤에 글자는 공백이 아닙니다.
 
 ## 입출력 예
-|-|-|
 |my_string|result|
+|-|-|
 |"i love you"|["i", "love", "you"]|
 |"programmers"|["programmers"]|
 

@@ -15,8 +15,8 @@
 - myStr은 알파벳 소문자로 이루어진 문자열 입니다.
 
 ## 입출력 예
-|-|-|
 |myStr|result|
+|-|-|
 |"baconlettucetomato"|["onlettu", "etom", "to"]|
 |"abcd"|["d"]|
 |"cabab"|["EMPTY"]|

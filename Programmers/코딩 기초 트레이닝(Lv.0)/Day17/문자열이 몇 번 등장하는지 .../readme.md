@@ -9,8 +9,8 @@
 - 1 ≤ pat ≤ 10
 
 ## 입출력 예
-|-|-|-|
 |myString|pat|result|
+|-|-|-|
 |"banana"|"ana"|2|
 |"aaaa"|"aa"|3|
 

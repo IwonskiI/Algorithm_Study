@@ -1,5 +1,6 @@
-str = input()
-
-str = str.swapcase()
-
-print(str)
+def solution(n):
+    answer = ''
+    
+    answer = str(n)
+    
+    return answer
