@@ -36,28 +36,23 @@ public class Solution {
 	public static void bfs(int x, int y) {
 		Queue<int[]> q = new LinkedList<>();
 		q.add(new int[] {x,y});
+		visited[x][y] = true;
 		
 		while(!q.isEmpty()) {
 			int[] cur = q.poll();
 			int c = cur[0];
 			int r = cur[1];
-			visited[c][r] = true;
 			
 			for(int dd = 0; dd < 8; dd++) {
 				int nc = c + dc[dd];
 				int nr = r + dr[dd];
 				boolean in_range = ((0<=nc)&&(nc<N)) && ((0<=nr)&&(nr<N));
-				
-				if(in_range && !visited[nc][nr]) {
-					if(board[nc][nr] == 1 || (near_mine[nc][nr] && board[nc][nr] == 0)) visited[nc][nr] = true;
-					else if(board[nc][nr] == 0 && !near_mine[nc][nr]) {
-						q.add(new int[] {nc, nr});
-					}
-				}
-				
+				if(!in_range || visited[nc][nr]) continue;
+				if(!visited[nc][nr] && !near_mine[nc][nr]) q.add(new int[] {nc, nr});
+				visited[nc][nr] = true;
 			}
+				
 		}
-		
 	}
 	
 	public static void main(String[] args) {
@@ -80,7 +75,7 @@ public class Solution {
 			find_mine();
 			for (int c = 0; c < N; c++) {
 				for (int r = 0; r < N; r++) {
-					if(!visited[c][r] && !near_mine[c][r]) {
+					if(!near_mine[c][r] && board[c][r] == 0 && !visited[c][r]) {
 						bfs(c, r);
 						ans += 1;
 					}
