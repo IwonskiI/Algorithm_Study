@@ -59,7 +59,6 @@ public class Main {
 		chk_board = new boolean[5][5];
 		int ans = 0;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 		
 		for(int i = 0; i < 5; i++) {
