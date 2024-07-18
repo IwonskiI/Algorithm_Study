@@ -9,23 +9,33 @@ public class Main {
 	static int M, N, ans = 1;
 	static int[][] board;
 	static int[] dr = {-1, 0, 1, 0}, dc = {0, 1, 0, -1};
+	static Deque<int[]> q = new ArrayDeque<>();
 	
-	public static void bfs(int row, int col) {
-		Deque<int[]> q = new ArrayDeque<>();
-		q.offer(new int[] {row, col, 2});
+	public static void bfs() {
 		while(!q.isEmpty()) {
 			int[] cur = q.poll();
 			int r = cur[0], c = cur[1], lv = cur[2];
+			ans = lv;
 			for(int dd = 0; dd < 4; dd++) {
 				int nr = r + dr[dd], nc = c + dc[dd];
 				boolean in_range = (0 <= nr && nr < N) && (0 <= nc && nc < M);
-				if(!in_range || board[nr][nc] == -1) continue;
-				if(board[nr][nc] == 0 || board[nr][nc] > lv) {
-					board[nr][nc] = lv;
+				if(in_range && board[nr][nc] == 0) {
+					board[nr][nc] = lv+1;
 					q.offer(new int[] {nr, nc, lv+1});
 				}
 			}
 		}
+		
+		for(int r = 0; r < N; r++) {
+			for(int c = 0; c < M; c++) {
+				if(board[r][c] == 0) {
+					System.out.println(-1);
+					return;
+				}
+			}
+		}
+		System.out.println(ans);
+		return;
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -45,26 +55,10 @@ public class Main {
 		
 		for(int r = 0; r < N; r++) {
 			for(int c = 0; c < M; c++) {
-				if(board[r][c] == 1) bfs(r, c);
+				if(board[r][c] == 1) q.offer(new int[] {r, c, 0});
 			}
 		}
-		
-		int ans = 0;
-		boolean flag = false;
-		
-		for(int r = 0; r < N; r++) {
-			if(flag) break;
-			for(int c = 0; c < M; c++) {
-				if(board[r][c] == 0) {
-					flag = true;
-					ans = -1;
-					break;
-				}
-				ans = ans < board[r][c]-1 ? board[r][c]-1 : ans;
-			}
-		}
-		
-		System.out.println(ans);
+		bfs();
 	}
 
 }
