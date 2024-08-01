@@ -29,7 +29,8 @@ public class Main {
 		}
 		
 		// 이분탐색 시작 (최대치는 랜선의 최대길이)
-		// (정수의 최대치 + 정수의 최대치가 일어날 수 있으므로 long 선언)
+		//*** 정수의 최대치 + 정수의 최대치가 일어날 수 있으므로 long 선언 ***
+		//*** start를 0으로 두니 divisionbyzero 에러 발생 ***
 		long start = 1, end = (long)max_len+1;
 		
 		while(start < end) {
@@ -45,6 +46,8 @@ public class Main {
 				end = mid - 1;
 			}
 		}
+		
+		// *** 이진탐색 종료 후 마지막 확인 값이 조건을 만족하는지 한번 더 확인
 		if(cnt_calc(start, lst) >= n) {
 			System.out.println(start);
 		}
