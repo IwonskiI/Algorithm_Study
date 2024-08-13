@@ -41,20 +41,15 @@ public class Solution {
 
             // 시간 진행
             for (int k = 1; k <= K; k++) {
-            	// 새로 추가되는 세포들을 저장할 리스트
-//            	// 4방향 탐색을 하며 바로 기존 리스트에 넣어주면 추가되자마자 경과시간이 1 증가하므로 별도로 관리
-//            	List<int[]> newCellList = new ArrayList<>();
             	// 같은 칸에 번식이 진행될 경우 에너지가 더 높은 세포가 번식하도록 우선순위 큐로 관리
             	PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o2[2]-o1[2]);
             	
-            	// 활성화된 세포를 우선순위 큐에 삽입
+            	// 현재 활성화된 세포를 번식시키기 위해 우선순위 큐에 삽입
             	for(int[] cell : cellList) {
-            		if(cell[4] == 1) {
-            			pq.offer(new int[] {cell[0], cell[1], cell[2], cell[3], cell[4]});
-            		}
+            		if(cell[4] == 1) pq.offer(cell);
             	}
             	
-            	// 번식 진행 후 기존 셀 리스트의 경과시간 증가 및 활성화/죽음 관리
+            	// 기존 셀 리스트의 경과시간 증가 및 활성화/죽음 관리
             	for(int idx = 0; idx < cellList.size(); idx++) {
             		// 경과시간 1 증가
             		cellList.get(idx)[3]++;
@@ -69,7 +64,7 @@ public class Solution {
             		}
             	}
             	
-            	// 우선순위 큐가 빌 때 까지 4방향 탐색을 통해 번식 진행
+            	// 상태 변경 후, 우선순위 큐가 빌 때 까지 4방향 탐색을 통해 번식 진행
             	while(!pq.isEmpty()) {
             		int[] cell = pq.poll();
             		for(int d = 0; d < 4; d++) {
@@ -82,14 +77,8 @@ public class Solution {
             			cellList.add(new int[] {nr, nc, cell[2], 0, 0});
             		}
             	}
-            	
-            	
-//            	// 새로 번식한 세포 추가
-//            	for(int[] cell : newCellList) {
-//            		cellList.add(new int[] {cell[0], cell[1], cell[2], cell[3], cell[4]});
-//            	}
             }
-
+            // 리스트에 존재하는 세포(비활성화, 활성화 세포)들의 수 출력 (리스트의 크기)
             sb.append("#").append(t).append(" ").append(cellList.size()).append("\n");
         }
 
