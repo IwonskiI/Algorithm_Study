@@ -1,78 +1,81 @@
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int[] dy = {-1, 0, 0, 1};
-    static int[] dx = {0, -1, 1, 0};
-    static int[][] map;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-
-        map = new int[N][N];
-        int[] cur = null;
-
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++) {
-                map[i][j] = sc.nextInt();
-                if (map[i][j] == 9) {
-                    cur = new int[]{i, j};
-                    map[i][j] = 0;
+    // BOJ 16236 - 아기 상어 
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        // 물고기 상태를 알려줄 보드
+        int[][] board = new int[N][N];
+        boolean[][] visited = new boolean[N][N];
+        // 상어의 사작 위치
+        int sr = 0, sc = 0;
+        // 초기값 입력
+        for(int r = 0; r < N; r++) {
+            st = new StringTokenizer(br.readLine());
+            for(int c = 0; c < N; c++) {
+                board[r][c] = Integer.parseInt(st.nextToken());
+                // 상어의 위치라면 좌표 저장
+                if(board[r][c] == 9) {
+                    sc = c;
+                    sr = r;
+                    board[r][c] = 0;
                 }
-            }
-
-        int size = 2;
-        int eat = 0; // 먹은 물고기 수
-        int move = 0; // 움직인 총 거리
-
-        while (true) {
-            PriorityQueue<int[]> que = new PriorityQueue<>((o1, o2) ->
-                    o1[2] != o2[2] ? Integer.compare(o1[2], o2[2]) : (o1[0] != o2[0] ? Integer.compare(o1[0], o2[0]) : Integer.compare(o1[1], o2[1]))
-            );
-            boolean[][] visit = new boolean[N][N];
-
-            que.add(new int[]{cur[0], cur[1], 0}); // y좌표, x좌표, 이동한 거리
-            visit[cur[0]][cur[1]] = true;
-
-            boolean ck = false; // 상어가 먹이를 먹었는지 체크할 변수
-
-            while (!que.isEmpty()) {
-                cur = que.poll();
-
-                if (map[cur[0]][cur[1]] != 0 && map[cur[0]][cur[1]] < size) { // 먹이가 있으면서 상어의 사이즈보다 작다면?
-                    map[cur[0]][cur[1]] = 0; // 물고기를 제거
-                    eat++; 
-                    move += cur[2]; // 움직인 거리를 총 움직인 거리에 추가
-                    ck = true; // 먹이 먹었다고 체크
-                    break;
-                }
-
-                for (int k = 0; k < 4; k++) {
-                    int ny = cur[0] + dy[k];
-                    int nx = cur[1] + dx[k];
-
-                    if (ny < 0 || nx < 0 || nx >= N || ny >= N || visit[ny][nx] || map[ny][nx] > size)
-                        continue;
-
-                    que.add(new int[]{ny, nx, cur[2] + 1});
-                    visit[ny][nx] = true;
-                }
-            }
-
-            if (!ck) // 큐가 비워질 때까지 먹이를 먹은적이 없다면, 더 이상 먹은 물고기가 없으므로 탈출
-                break;
-
-            if (size == eat) { // 사이즈와 먹이를 먹은 수가 동일하다면 상어의 크기를 증가
-                size++;
-                eat = 0;
             }
         }
-
-
-        System.out.println(move);
-
+        // 4방향 델타값
+        int[][] d = new int[][] {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+        // size : 현재 크기, eat : 먹은 물고기 수, ans : 물고기를 먹을 때 까지 이동한 거리
+        int size = 2, eat = 0, ans = 0;
+        // 이동을 관리할 pq (거리가 가까운 것 우선, 다음으로 r이 작은것 우선, 마지막으로 c가 작은 것 우선) 
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] != o2[2] ? o1[2] - o2[2] : o1[0] != o2[0] ? o1[0] - o2[0] : o1[1] - o2[1]);
+        // 초기 좌표 및 이동거리 세팅
+        pq.offer(new int[] {sr, sc, 0});
+        // 초기 방문 처리
+        visited[sr][sc] = true;
+        
+        // BFS 시작
+        while(!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int r = cur[0], c = cur[1], dist = cur[2];
+            // 만약 현재 칸에 먹을 수 있는 물고기가 있다면
+            if(board[r][c] !=- 0 && board[r][c] < size) {
+                // pq 초기화
+                pq = new PriorityQueue<>((o1, o2) -> o1[2] != o2[2] ? o1[2] - o2[2] : o1[0] != o2[0] ? o1[0] - o2[0] : o1[1] - o2[1]);
+                // 방문 배열 초기화
+                visited = new boolean[N][N];
+                // 먹은 물고기 삭제
+                board[r][c] = 0;
+                // 먹은 물고기 수 증가
+                eat++;
+                // 현재까지 이동한 거리 저장
+                ans = dist;
+                // 먹은 뒤, 사이즈랑 같아진다면
+                if(eat == size) {
+                    // 먹은 물고기 수 초기화
+                    eat = 0;
+                    // 사이즈 증가
+                    size++;
+                }
+            }
+            // 4방향 탐색
+            for(int dd = 0; dd < 4; dd++) {
+                int nr = r + d[dd][0], nc = c + d[dd][1];
+                boolean in_range = (0 <= nr && nr < N) && (0 <= nc && nc < N);
+                // 이동 좌표가 범위 내이고, 이동하려는 칸이 현재 size보다 작거나 같으며, 아직 방문 전이라면
+                if(in_range && board[nr][nc] <= size && !visited[nr][nc]) {
+                    // 새로운 탐색 위치 추가
+                    pq.offer(new int[] {nr, nc, dist+1});
+                    // 방문 처리
+                    visited[nr][nc] = true;
+                }
+            }
+        }
+        
+        // 더 이상 먹을 물고기가 없으면, 마지막 물고기를 먹었을 때까지 움직인 거리 출력
+        System.out.println(ans);
     }
-
-
 }
