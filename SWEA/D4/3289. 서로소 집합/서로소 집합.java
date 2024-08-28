@@ -56,18 +56,21 @@ public class Solution {
         		int op = Integer.parseInt(st.nextToken());
         		int a = Integer.parseInt(st.nextToken());
         		int b = Integer.parseInt(st.nextToken());
-        		if(op == 0)
+        		switch(op) {
+        		// 합집합 연산
+        		case 0:
         			// a와 b를 합집합 연산
         			union(a, b);
-        		else if(op == 1) {
-        			// a와 b가 같은 집합에 있다면 1 저장
+        			break;
+        		case 1:
+        			// a와 b가 같은 집합에 있는지 확인
         			if(find(a) == find(b)) sb.append(1);
-        			// 아니라면 0 저장
         			else sb.append(0);
+        			break;
         		}
         	}
         	
-        	// 마지막 개행 처리
+        	// 최종 정답 저장
             sb.append("\n");
         }
         // 결과 출력
