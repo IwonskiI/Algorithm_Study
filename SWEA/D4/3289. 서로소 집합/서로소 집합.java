@@ -5,26 +5,38 @@ public class Solution {
       
     // SWEA 3289 - 서로소 집합
 	public static int N, M;
-	public static int[] parents;
+	public static int[][] parents;
 	
 	// union 함수
 	public static void union(int x, int y) {
-		// x의 부모 찾기
-		x = find(x);
-		// y의 부모 찾기
-		y = find(y);
-		// x의 부모가 더 작다면 y의 부모를 x의 부모로 설정
-		if(x < y) parents[y] = x;
-		// y의 부모가 더 작다면 x의 부모를 y의 부모로 설정
-		else parents[x] = y;
+		// x의 부모를 찾고, 부모의 크기와 높이 찾기
+		int a = find(x);
+		int a_h = parents[a][1];
+		// y의 부모를 찾고, 부모의 크기와 높이 찾기
+		int b = find(y);
+		int b_h = parents[b][1];
+		
+		// 두 부모가 같다면 return
+		if(a == b) return;
+		
+		// 높이가 높은 트리에 높이가 낮은 트리를 붙여줌
+		if(a_h > b_h) {
+			parents[a][0] = b;
+		}
+		else{
+			parents[b][0] = a;
+		}
+		
+		// 높이가 같았다면 한 트리의 루트 노드 하나 아래에 다른 한 트리를 붙여줬기 때문에 최대 높이 증가
+		if(a_h == b_h) parents[a][1]++;
 	}
 	
 	// find 함수
 	public static int find(int x) {
 		// 현재 값이 루트 노드라면 return
-		if(x == parents[x]) return x;
+		if(parents[x][0] < 0) return x;
 		// 아니라면 부모를 탐색 - path compression
-		else return parents[x] = find(parents[x]);
+		else return parents[x][0] = find(parents[x][0]);
 	}
 	
     public static void main(String[] args) throws Exception {
@@ -37,10 +49,10 @@ public class Solution {
         	st = new StringTokenizer(br.readLine());
         	N = Integer.parseInt(st.nextToken());
         	M = Integer.parseInt(st.nextToken());
-        	parents = new int[N + 1];
+        	parents = new int[N + 1][2];
         	// 부모를 자기 자신으로 초기화
         	for(int i = 1; i <= N; i++) {
-        		parents[i] = i;
+        		parents[i][0] = -1;
         	}
         	
         	for(int i = 0; i < M; i++) {
