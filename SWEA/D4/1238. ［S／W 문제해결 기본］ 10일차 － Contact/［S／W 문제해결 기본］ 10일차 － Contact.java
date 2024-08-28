@@ -3,7 +3,7 @@ import java.io.*;
   
 public class Solution {
       
-    // SWEA 1238 - [S/W 문제해결 기본] 10일차 - Contact [인접 행렬]
+    // SWEA 1238 - [S/W 문제해결 기본] 10일차 - Contact [인접 리스트]
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -13,8 +13,11 @@ public class Solution {
         	int ans = 0;
         	// 전달 받았을 때 걸린 시간
         	int prev_lv = -1;
-        	// 인접 행렬 - 연결 관리
-        	boolean[][] board = new boolean[100][100];
+        	// 인접 리스트 - 연결 관리
+        	ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        	for(int i = 0; i < 100; i++) {
+        		graph.add(new ArrayList<>());
+        	}
         	// 방문 관리
         	boolean[] visited = new boolean[100];
         	st = new StringTokenizer(br.readLine());
@@ -29,7 +32,7 @@ public class Solution {
         		int from = Integer.parseInt(st.nextToken()) - 1;
         		int to  = Integer.parseInt(st.nextToken()) - 1;
         		// 간선 연결
-        		board[from][to] = true;
+        		graph.get(from).add(to);
         	}
         	// bfs탐색
         	Deque<int[]> dq = new ArrayDeque<>();
@@ -53,13 +56,15 @@ public class Solution {
         			ans = sp + 1;
         		}
         		// 간선 연결 확인
-        		for(int i = 0; i < 100; i++) {
-        			// 간선이 연결되어있고, 방문 전이라면
-        			if(board[sp][i] && !visited[i]) {
+        		ArrayList<Integer> cur_lst = graph.get(sp);
+        		// sp에 연결된 값들 순회
+        		for(int key : cur_lst) {
+        			// key값을 아직 방문 전이라면
+        			if(!visited[key]) {
         				// 다음 방문 추가
-        				dq.offer(new int[] {i, lv+1});
+        				dq.offer(new int[] {key, lv+1});
         				// 방문 처리
-        				visited[i] = true;
+        				visited[key] = true;
         			}
         		}
         	}
