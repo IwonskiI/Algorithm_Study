@@ -27,10 +27,10 @@ public class Solution {
      
     // find 함수
     public static int find(int x) {
-        // 현재 값이 루트 노드라면 return
-        if(parents[x] == x) return x;
-        // 아니라면 부모를 탐색 - path compression
-        else return parents[x] = find(parents[x]);
+        // 현재 값이 루트 노드가 아니라면 부모를 탐색하며 저장 - path compression
+        if(parents[x] != x) parents[x] = find(parents[x]);
+        // 부모 노드 리턴
+        return parents[x];
     }
      
     public static void main(String[] args) throws Exception {
@@ -48,7 +48,6 @@ public class Solution {
             // 부모를 자기 자신으로 초기화
             for(int i = 1; i <= N; i++) {
                 parents[i] = i;
-                rank[i] = 1;
             }
              
             for(int i = 0; i < M; i++) {
@@ -57,21 +56,18 @@ public class Solution {
                 int op = Integer.parseInt(st.nextToken());
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
-                switch(op) {
-                // 합집합 연산
-                case 0:
+                if(op == 0)
                     // a와 b를 합집합 연산
                     union(a, b);
-                    break;
-                case 1:
-                    // a와 b가 같은 집합에 있는지 확인
+                else if(op == 1) {
+                    // a와 b가 같은 집합에 있다면 1 저장
                     if(find(a) == find(b)) sb.append(1);
+                    // 아니라면 0 저장
                     else sb.append(0);
-                    break;
                 }
             }
              
-            // 최종 정답 저장
+            // 마지막 개행 처리
             sb.append("\n");
         }
         // 결과 출력
