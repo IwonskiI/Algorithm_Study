@@ -18,11 +18,10 @@ public class Solution {
 		
 		// 높이가 높은 트리에 높이가 낮은 트리를 붙여줌
 		if(rank[x] > rank[y]) parents[y] = x;
-		else {
-			parents[x] = y;
-			// 높이가 같았다면 한 트리의 루트 노드 하나 아래에 다른 한 트리를 붙여줬기 때문에 최대 높이 증가
-			if(rank[x] == rank[y]) rank[x]++;
-		}
+		else parents[x] = y;
+		
+		// 높이가 같았다면 한 트리의 루트 노드 하나 아래에 다른 한 트리를 붙여줬기 때문에 최대 높이 증가
+		if(rank[x] == rank[y]) rank[x]++;
 	}
 	
 	// find 함수
