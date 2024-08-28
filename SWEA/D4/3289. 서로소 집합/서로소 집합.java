@@ -23,8 +23,8 @@ public class Solution {
 	public static int find(int x) {
 		// 현재 값이 루트 노드라면 return
 		if(x == parents[x]) return x;
-		// 아니라면 부모를 탐색
-		else return find(parents[x]);
+		// 아니라면 부모를 탐색 - path compression
+		else return parents[x] = find(parents[x]);
 	}
 	
     public static void main(String[] args) throws Exception {
