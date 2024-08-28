@@ -27,10 +27,10 @@ public class Solution {
 	
 	// find 함수
 	public static int find(int x) {
-		// 현재 값이 루트 노드가 아니라면 부모를 탐색하며 저장 - path compression
-		if(parents[x] != x) parents[x] = find(parents[x]);
-		// 부모 노드 리턴
-		return parents[x];
+		// 현재 값이 루트 노드라면 return
+		if(parents[x] == x) return x;
+		// 아니라면 부모를 탐색 - path compression
+		else return parents[x] = find(parents[x]);
 	}
 	
     public static void main(String[] args) throws Exception {
@@ -48,6 +48,7 @@ public class Solution {
         	// 부모를 자기 자신으로 초기화
         	for(int i = 1; i <= N; i++) {
         		parents[i] = i;
+        		rank[i] = 1;
         	}
         	
         	for(int i = 0; i < M; i++) {
