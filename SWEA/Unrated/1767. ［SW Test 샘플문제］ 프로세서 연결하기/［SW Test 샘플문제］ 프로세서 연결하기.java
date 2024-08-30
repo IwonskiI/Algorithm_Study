@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
+	// SWEA 1767 - [SW Test 샘플문제] 프로세서 연결하기
 	
 	// N :보드의 크기, ans_chip/ans_line : 정답의 칩 연결 개수와 선 개수
 	// chip_cnt/line_cnt : 현재 진행중인 연결 칩 개수과 선 개수
