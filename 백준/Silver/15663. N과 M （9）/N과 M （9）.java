@@ -14,8 +14,6 @@ public class Main {
 	
 	// 순열 생성 함수
 	public static void perm(int cnt) {
-		// 같은 자리에 같은 숫자가 2번 오지 않도록 방문 배열 하나 더 선언
-		HashSet<Integer> set = new HashSet<>();
 		// cnt(숫자의 개수)가 M개가 되었으면,
 		if(cnt == M) {
 			// number(순열)에 담긴 숫자 저장
@@ -25,14 +23,15 @@ public class Main {
 			sb.append("\n");
 			return;
 		}
+		int temp = -1;
 		// M개가 되지 않았으면 될 때까지 순열 생성
 		for(int i = 0; i < N; i++) {
 			// 만약 해당 숫자를 사용중이거나, 해당 자리에서 똑같은 숫자를 사용한 적이 있다면 continue
-			if(visited[i] || set.contains(lst[i])) continue;
+			if(visited[i] || lst[i] == temp ) continue;
 			// 해당 위치 숫자 방문 처리
 			visited[i] = true;
 			// 해당 종류 숫자 방문 처리
-			set.add(lst[i]);
+			temp = lst[i];
 			// 순열 생성
 			number[cnt] = lst[i];
 			// 추가 순열 생성
