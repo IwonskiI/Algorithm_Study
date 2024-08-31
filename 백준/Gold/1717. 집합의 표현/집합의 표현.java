@@ -3,7 +3,7 @@ import java.io.*;
     
 public class Main {
         
-    // SWEA 3289 - 서로소 집합
+    // BOJ 1717 - 집합의 표현
     public static int N, M;
     public static int[] parents, rank;
       
