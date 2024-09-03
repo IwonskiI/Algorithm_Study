@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 
-	// BOJ 15651 - N과 M(3)
+	// BOJ 15651 - N과 M(6)
 	public static StringBuilder sb = new StringBuilder();
 	// 1부터 N까지의 수 중 M개의 숫자를 중복을 허용해서 뽑기
 	public static int N, M;
