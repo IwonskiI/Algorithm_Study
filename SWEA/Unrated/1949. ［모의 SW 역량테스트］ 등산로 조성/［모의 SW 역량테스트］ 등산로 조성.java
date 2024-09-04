@@ -1,17 +1,9 @@
 import java.io.*;
 import java.util.*;
  
-// SWEA 1949 - [모의 SW 역량테스트] 등산로 조성
-
-// 좌표를 관리할 클래스
-class Pos {
-	int r, c;
-	public Pos(int x, int y) {
-		this.r = x; this.c = y;
-	}
-}
-
 public class Solution {
+	
+	// SWEA 1949 - [모의 SW 역량테스트] 등산로 조성
 	
 	// 보드의 크기 N, 깎을 수 있는 깊이 K, 최대 등산로 길이 ans 
 	public static int N, K, ans;
@@ -22,21 +14,22 @@ public class Solution {
 	
 	// 각 코스를 끝까지 탐색할 dfs 함수
 	/**
-	 * @param p : 현재 위치의 좌표
+	 * @param r : 현재 위치의 row 좌표
+	 * @param c : 현재 위치의 col 좌표
 	 * @param dist : 현재까지 이동한 등산로의 거리
 	 * @param canCut : 봉우리를 깎을 수 있는지 (아직 안깎았으면 true / 이미 깎았으면 false)
 	 */
-	public static void dfs(Pos p, int dist, boolean canCut) {
+	public static void dfs(int r, int c, int dist, boolean canCut) {
 		// 현재 칸에 도달했으니 거리 증가
 		dist++;
 		// 현재까지 거리가 저장된 최대 거리보다 크다면 최대거리 갱신
 		if(ans < dist) ans = dist;
 		// 현재 높이 cur 저장
-		int cur = board[p.r][p.c];
+		int cur = board[r][c];
 		// 4방향 탐색
 		for(int dd = 0; dd < 4; dd++) {
 			// 이동 할 좌표
-			int nr = p.r + d[dd][0], nc = p.c + d[dd][1];
+			int nr = r + d[dd][0], nc = c + d[dd][1];
 			// 범위 체크
 			boolean in_range = (0 <= nr && nr < N) && (0 <= nc && nc < N);
 			// 범위 안이고, 아직 방문 전이라면
@@ -46,7 +39,7 @@ public class Solution {
 					// 해당 봉우리로 이동 : 방문처리
 					visited[nr][nc] = true;
 					// 다음 좌표 탐색을 위해 dfs 함수 호출
-					dfs(new Pos(nr, nc), dist, canCut);
+					dfs(nr, nc, dist, canCut);
 					// 탐색 완료 후 방문 처리 해제
 					visited[nr][nc] = false;
 				}
@@ -63,7 +56,7 @@ public class Solution {
 					// 깎은 뒤 해당 봉우리로 이동 : 방문 처리
 					visited[nr][nc] = true;
 					// 다음 좌표 탐색을 위해 dfs 함수를 호출 -> 봉우리를 깎았으므로 canCut은 false로 전달
-					dfs(new Pos(nr, nc), dist, false);
+					dfs(nr, nc, dist, false);
 					// 탐색 완료 후 봉우리를 안 깎은 상태로 원상복구
 					board[nr][nc] = temp;
 					// 탐색 완료 후 방문 처리 해제
@@ -109,7 +102,7 @@ public class Solution {
             		// 가장 높은 곳이라면 탐색 시작 : 방문 처리
             		visited[r][c] = true;
             		// 현재 위치부터 dfs로 등산로 탐색 시작 (초기 거리는 0, canCut은 true)
-            		dfs(new Pos(r, c), 0, true);
+            		dfs(r, c, 0, true);
             		// 탐색 완료 후 방문 처리 해제
             		visited[r][c] = false;
             	}
