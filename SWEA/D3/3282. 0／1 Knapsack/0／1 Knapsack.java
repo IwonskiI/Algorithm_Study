@@ -4,6 +4,7 @@ import java.io.*;
 
 public class Solution {
 
+    // SWEA 3282 - 0/1 Knapsack
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
