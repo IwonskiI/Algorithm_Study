@@ -22,7 +22,7 @@ public class Main {
         for(int i = 0; i < N; i++) {
         	// 합을 계속 더하다보면 Integer 범위를 넘어감.
         	// (A+B) % M == ((A%M) + (B%M)) % M 이므로 미리 모듈러 연산을 해줌.
-        	int cur = Integer.parseInt(st.nextToken());
+        	int cur = Integer.parseInt(st.nextToken()) % M;
         	// 누적합 계산
         	sum += cur;
         	// 모듈러 연산
