@@ -16,16 +16,8 @@ public class Main {
         int e = Integer.parseInt(st.nextToken());
         int f = Integer.parseInt(st.nextToken());
         
-        // 모든 경우의 수 계산
-        for(int x = -999; x <= 999; x++) {
-        	for(int y = -999; y <= 999; y++) {
-        		// 식을 만족하는 해를 찾았다면 저장 후 종료
-        		if((a*x)+(b*y) == c && (d*x) + (e*y) == f) {
-        			sb.append(x).append(" ").append(y);
-        			break;
-        		}
-        	}
-        }
+        // 연립 방정식의 해 구하기
+        sb.append(((c*e) - (f*b)) / ((a*e) - (d*b))).append(" ").append(((c*d) - (f*a)) / ((b*d) - (a*e)));
         
         // 최종 결과 출력
         System.out.println(sb.toString());
