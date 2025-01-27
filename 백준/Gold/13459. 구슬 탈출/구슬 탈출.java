@@ -2,106 +2,168 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    
-    // BOJ 13459 - 구슬 탈출
-    public static int R, C, rrow, rcol, brow, bcol;
-    public static int[][] board, d = new int[][] {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-    
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        // 보드 크기 입력
-        R = Integer.parseInt(st.nextToken());
-        C = Integer.parseInt(st.nextToken());
-        
-        // 보드 초기화
-        board = new int[R][C];
-        
-        // 초기 상태 입력 및 구슬 위치 저장
-        for(int r = 0; r < R; r++){
-            String line = br.readLine();
-            for(int c = 0; c < C; c++){
-                char cur = line.charAt(c);
-                if(cur == '#') board[r][c] = -1;
-                else if(cur == 'O') board[r][c] = 1;
-                else if(cur == 'R') {rrow = r; rcol = c;}
-                else if(cur == 'B') {brow = r; bcol = c;}
-            }
-        }
-        
-        // 움직인 횟수 저장
-        int lv = 0;
-        // BFS 탐색을 위한 deque
-        Deque<int[]> dq = new ArrayDeque<>();
-        dq.offer(new int[] {rrow, rcol, brow, bcol, lv});
-        
-        // BFS 탐색 시작
-        while(!dq.isEmpty()){
-        	// 0:red_row, 1:red_col, 2:blue_row, 3:blue_col, 4:level
-            int[] cur = dq.poll();
-            
-            // 4방향 탐색
-            for(int dd = 0; dd < 4; dd++) {
-            	// 새로운 빨간공, 파란공 좌표를 저장할 배열
-                int[] nrpos = new int[] {cur[0], cur[1]};
-                int[] nbpos = new int[] {cur[2], cur[3]};
-                // 빨간공, 파란공이 구멍에 빠졌는지 체크할 변수
-                boolean rfin = false, bfin = false;
-                // 벽에 부딪히기 전까지 빨간공 이동
-                while(board[nrpos[0] + d[dd][0]][nrpos[1] + d[dd][1]] != -1){
-                    nrpos = new int[] {nrpos[0] + d[dd][0], nrpos[1] + d[dd][1]};
-                    // 만약 이동한 좌표가 구멍이라면 빨간공 들어갔다고 체크후 종료
-                    if(board[nrpos[0]][nrpos[1]] == 1){
-                        rfin = true;
-                        break;
-                    }
-                }
-                // 파란 공도 같은 로직으로 진행
-                while(board[nbpos[0] + d[dd][0]][nbpos[1] + d[dd][1]] != -1){
-                    nbpos = new int[] {nbpos[0] + d[dd][0], nbpos[1] + d[dd][1]};
-                    if(board[nbpos[0]][nbpos[1]] == 1){
-                        bfin = true;
-                        break;
-                    }
-                }
-                // 만약 파란공이 빠졌다면 더이상 진행 X
-                if(bfin) continue;
-                // 파란공이 빠지지 않고 빨간공이 들어갔다면 성공 후 종료
-                else if(rfin){
-                    System.out.println(1);
-                    return;
-                }
-                // 두 공이 구멍에 빠지지 않았는데 좌표가 겹친 경우
-                // 기존 위치 고려하여 좌표 수정
-                if(nrpos[0] == nbpos[0] && nrpos[1] == nbpos[1]) {
-                	if(dd == 0) {
-                		if(cur[0] < cur[2]) nbpos = new int[] {nbpos[0]+1, nbpos[1]};
-                		else nrpos = new int[] {nrpos[0]+1, nrpos[1]};
-                	}
-                	else if(dd == 1) {
-                		if(cur[1] > cur[3]) nbpos = new int[] {nbpos[0], nbpos[1]-1};
-                		else nrpos = new int[] {nrpos[0], nrpos[1]-1};
-                	}
-                	else if(dd == 2) {
-                		if(cur[0] > cur[2]) nbpos = new int[] {nbpos[0]-1, nbpos[1]};
-                		else nrpos = new int[] {nrpos[0]-1, nrpos[1]};
-                	}
-                	else if(dd == 3) {
-                		if(cur[1] < cur[3]) nbpos = new int[] {nbpos[0], nbpos[1]+1};
-                		else nrpos = new int[] {nrpos[0], nrpos[1]+1};
-                	}
-                }
-                // 이번 움직임으로 10번을 모두 움직였다면 queue에 추가하지 않고 스킵
-                if(cur[4] + 1 == 10) continue;
-                // 아니라면 더 움직여보기 위해 queue에 새 좌표 및 횟수 추가해서 저장
-                else {
-                    dq.offer(new int[] {nrpos[0], nrpos[1], nbpos[0], nbpos[1], cur[4]+1});
-                }
-            }
-        }
-        // queue가 빌 때까지 모두 탐색해도 성공하지 못했다면 0 출력 후 종료
-        System.out.println(0);
-        return;
-    }
+	
+	// BOJ 13459 - 구슬 탈출
+	
+	// 구슬의 좌표를 관리할 Class
+	static class Point{
+		public int r, c;
+		
+		public Point(int r, int c) {
+			this.r = r;
+			this.c = c;
+		}
+		
+	}
+
+	// board에서의 빨간 구슬과 파란 구슬의 상태와 이동횟수를 관리할 class 
+	static class Status {
+		public Point red, blue;
+		public int lvl;
+		
+		public Status(int lvl, Point red, Point blue) {
+			this.red = red;
+			this.blue = blue;
+			this.lvl = lvl;
+		}
+		
+	}
+	
+	public static int R, C;
+	public static char[][] board;
+	public static int[][] d = new int[][] {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+	// 도착 지점의 좌표
+	public static Point goal = new Point(-1, -1);
+	
+	// 구슬 이동 함수
+	public static Point move(int dd, Point p) {
+		// 현재 좌표
+		int cr = p.r, cc = p.c;
+		// 벽을 만날때까지 이동
+		while(board[cr+d[dd][0]][cc+d[dd][1]] != '#') {
+			cr += d[dd][0];
+			cc += d[dd][1];
+			// 이동한 좌표가 골인 지점이라면 중지
+			if(cr == goal.r && cc == goal.c) return new Point(-1, -1);
+		}
+		// 최종 이동 좌표 반환
+		return new Point(cr, cc);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		// 초기값 입력
+		R = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		board = new char[R][C];
+		Point red = new Point(-1, -1), blue = new Point(-1, -1);
+		
+		// board 상태 입력
+		for(int r = 0; r < R; r++) {
+			String str = br.readLine();
+			for(int c = 0; c < C; c++) {
+				char cur = str.charAt(c);
+				board[r][c] = cur;
+				// 빨간 구슬 시작 좌표
+				if(cur == 'R') {
+					red.r = r;
+					red.c = c;
+					board[r][c] = '.';
+				}
+				// 파란 구슬 시작 좌표
+				else if(cur == 'B') {
+					blue.r = r;
+					blue.c = c;
+					board[r][c] = '.';
+				}
+				// 구멍 좌표
+				else if(cur == 'O') {
+					goal.r = r;
+					goal.c = c;
+					board[r][c] = '.';
+				}
+			}
+		}
+		
+		// BFS 너비우선 탐색
+		Status start = new Status(0, red, blue);
+		// 중복 탐색을 방지하기 위한 HashSet (빨간공 좌표, 파란공 좌표를 문자열로 만들어서 Set으로 관리)
+		HashSet<String> visited = new HashSet<>();
+		
+		// BFS 시작
+		Deque<Status> dq = new ArrayDeque<>();
+		dq.offer(start);
+		// 방문 처리
+		visited.add(start.red.r + " " + start.red.c + " " + start.blue.r + " " + start.blue.c);
+		
+		
+		while(!dq.isEmpty()) {
+			Status cur = dq.poll();
+			Point cR = cur.red, cB = cur.blue;
+			// 10번 이상 움직였으면 탐색X
+			if(cur.lvl >= 10) continue;
+			
+			// 4방향 탐색
+			for(int dd = 0; dd < 4; dd++) {
+				// 새 빨간공 좌표
+				Point nR = move(dd, cR);
+				// 새 파란공 좌표				
+				Point nB = move(dd, cB);
+				// 파란공이 구멍에 빠진 경우 실패
+				if(nB.r == -1 && nB.c == -1) continue;
+				// 빨간공만 구멍에 빠진 경우 성공
+				else if(nR.r == -1 && nR.c == -1) {
+					System.out.println(1);
+					return;
+				}
+				// 이동 후 두 공의 좌표가 같다면(겹쳤다면) 이동 방향과 이전 위치에 따른 위치 수정
+				if(nR.r == nB.r && nR.c == nB.c) {
+					// 상 이동
+					if(dd == 0) {
+						// 빨간공이 위에 있었다면 파란공을 한칸 밑으로
+						if(cR.r < cB.r) nB.r += 1;
+						// 파란공이 위에 있었다면 빨간공을 한칸 밑으로
+						else nR.r += 1;
+					}
+					// 우 이동
+					else if(dd == 1) {
+						// 빨간공이 왼쪽에 있었다면 빨간공을 한칸 왼쪽으로
+						if(cR.c < cB.c) nR.c -= 1;
+						// 파란공이 왼쪽에 있었다면 파란공을 한칸 왼쪽으로
+						else nB.c -= 1;
+					}
+					// 하 이동
+					else if (dd == 2){
+						// 빨간공이 위에 있었다면 빨간공을 한칸 위로
+						if(cR.r < cB.r) nR.r -= 1;
+						// 파란공이 위에 있었다면 파란공을 한칸 위로
+						else nB.r -= 1;
+					}
+					// 좌 이동
+					else if(dd == 3) {
+						// 빨간공이 왼쪽에 있었다면 파란공을 한칸 오른쪽으로
+						if(cR.c < cB.c) nB.c += 1;
+						// 파란공이 왼쪽에 있었다면 빨간공을 한칸 오른쪽으로
+						else nR.c += 1;
+					}
+				}
+				// 현재 빨간공의 좌표, 파란공의 좌표로 문자열 생성
+				String key = nR.r + " " + nR.c + " " + nB.r + " " + nB.c;
+				// 해당 문자열 key가 이미 방문한적 있는 좌표라면 스킵
+				if(!visited.contains(key)) {
+					// 아니라면 key 추가
+					visited.add(key);
+					// 이동 횟수 증가 후 다음 탐색 대기열에 추가
+					dq.offer(new Status(cur.lvl+1, nR, nB));
+				}
+			}
+		}
+		
+		// 10번 넘게 차지 못하면 0 출력
+		System.out.println(0);
+		return;
+	}
+
 }
